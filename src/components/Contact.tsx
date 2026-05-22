@@ -7,7 +7,8 @@ import { Button } from './ui/Button';
 export const Contact: React.FC = () => {
   const formRef = useRef<HTMLDivElement>(null);
 
-  useAnimateOnScroll(formRef, {
+  // Cast to satisfy the hook’s HTMLElement type
+  useAnimateOnScroll(formRef as unknown as React.RefObject<HTMLElement>, {
     trigger: true,
     start: 'top 80%',
     end: 'bottom 20%',

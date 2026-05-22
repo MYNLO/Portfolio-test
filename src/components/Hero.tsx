@@ -6,13 +6,16 @@ import { Section } from './ui/Section';
 import { Button } from './ui/Button';
 
 export const Hero: React.FC = () => {
-  const headlineRef = useRef<HTMLElement>(null);
-  const subheadRef = useRef<HTMLElement>(null);
+  const headlineRef = useRef<HTMLHeadingElement>(null);
+  const subheadRef = useRef<HTMLParagraphElement>(null);
   const ctaRef = useRef<HTMLElement>(null);
 
-  useFadeInOnLoad(headlineRef, 0, 0.8);
-  useFadeInOnLoad(subheadRef, 0.3, 0.8);
-  useFadeInOnLoad(ctaRef, 0.6, 0.8);
+  // Cast to satisfy the hook’s HTMLElement type
+  useFadeInOnLoad(headlineRef as unknown as React.RefObject<HTMLElement>, 0, 0.8);
+  // Cast to satisfy the hook’s HTMLElement type
+  useFadeInOnLoad(subheadRef as unknown as React.RefObject<HTMLElement>, 0.3, 0.8);
+  // Cast to satisfy the hook’s HTMLElement type
+  useFadeInOnLoad(ctaRef as unknown as React.RefObject<HTMLElement>, 0.6, 0.8);
 
   return (
     <Section 
