@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Head from "next/head";
 
 export const metadata: Metadata = {
   title: "Sonet Consulting - Strategic Advisory & Leadership Coaching",
@@ -17,12 +16,12 @@ export default function RootLayout({
       lang="en"
       className="h-full antialiased"
     >
-      <Head>
+      <head>
         <link
-          href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@400;600;700&display=swap"
+          href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap"
           rel="stylesheet"
         />
-      </Head>
+      </head>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );

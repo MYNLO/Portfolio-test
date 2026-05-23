@@ -17,8 +17,8 @@ const config: Config = {
         "navy-blue": "#2c3e50",
       },
       fontFamily: {
-        serif: ["Playfair Display", "Georgia", "serif"],
-        sans: ["Inter", "system-ui", "sans-serif"],
+        serif: ["IBM Plex Sans", "system-ui", "sans-serif"],
+        sans: ["IBM Plex Sans", "system-ui", "sans-serif"],
       },
       spacing: {
         "section": "80px",

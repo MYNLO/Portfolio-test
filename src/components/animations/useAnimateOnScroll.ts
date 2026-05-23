@@ -1,5 +1,5 @@
 'use client';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -18,10 +18,12 @@ interface AnimationOptions {
   y?: number;
 }
 
-export const useAnimateOnScroll = (
-  ref: React.RefObject<HTMLElement>,
+export const useAnimateOnScroll = <T extends HTMLElement>(
+  ref: React.RefObject<T | null>,
   options: AnimationOptions = {}
 ) => {
+  const scrollTriggerRef = useRef<ScrollTrigger | null>(null);
+
   useEffect(() => {
     const element = ref.current;
     if (!element) return;
@@ -41,36 +43,23 @@ export const useAnimateOnScroll = (
 
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReduced) {
-      // Skip animation, ensure element is visible
       gsap.set(element, { opacity: 1, y: 0 });
       return;
     }
-    const timeline = gsap.timeline({
-      paused: true,
-      onComplete: () => {
-        if (scrub) {
-          ScrollTrigger.create({
-            trigger: element,
-            start,
-            end,
-            scrub: true,
-            animation: timeline
-          });
-        }
-      }
-    });
+
+    const timeline = gsap.timeline({ paused: true });
 
     if (stagger && element.children) {
       gsap.fromTo(
         element.children,
         { opacity, y },
-        { 
-          opacity: 1, 
-          y: 0, 
-          duration, 
-          delay, 
+        {
+          opacity: 1,
+          y: 0,
+          duration,
+          delay,
           ease,
-          stagger: stagger * 1000
+          stagger
         }
       );
     } else {
@@ -82,25 +71,26 @@ export const useAnimateOnScroll = (
     }
 
     if (trigger && !scrub) {
-      ScrollTrigger.create({
+      scrollTriggerRef.current = ScrollTrigger.create({
         trigger: element,
         start,
         end,
         onEnter: () => timeline.play(),
-        onLeaveBack: () => timeline.reverse(),
-        onEnterBack: () => timeline.play()
+        onLeaveBack: () => timeline.progress(0).pause(),
       });
     }
 
     return () => {
       timeline.kill();
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      if (scrollTriggerRef.current) {
+        scrollTriggerRef.current.kill();
+      }
     };
   }, [ref, options]);
 };
 
-export const useFadeInOnLoad = (
-  ref: React.RefObject<HTMLElement>,
+export const useFadeInOnLoad = <T extends HTMLElement>(
+  ref: React.RefObject<T | null>,
   delay = 0,
   duration = 0.8
 ) => {
@@ -108,20 +98,20 @@ export const useFadeInOnLoad = (
     const element = ref.current;
     if (!element) return;
 
-    gsap.fromTo(
+    const tween = gsap.fromTo(
       element,
       { opacity: 0, y: 30 },
-      { 
-        opacity: 1, 
-        y: 0, 
-        duration, 
+      {
+        opacity: 1,
+        y: 0,
+        duration,
         delay,
         ease: 'power2.out'
       }
     );
 
     return () => {
-      gsap.killTweensOf(element);
+      tween.kill();
     };
   }, [ref, delay, duration]);
 };

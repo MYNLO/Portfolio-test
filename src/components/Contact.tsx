@@ -7,8 +7,7 @@ import { Button } from './ui/Button';
 export const Contact: React.FC = () => {
   const formRef = useRef<HTMLDivElement>(null);
 
-  // Cast to satisfy the hook’s HTMLElement type
-  useAnimateOnScroll(formRef as unknown as React.RefObject<HTMLElement>, {
+  useAnimateOnScroll(formRef, {
     trigger: true,
     start: 'top 80%',
     end: 'bottom 20%',
@@ -27,46 +26,48 @@ export const Contact: React.FC = () => {
           Ready to start a partnership? Fill out the short form and we’ll reach out.
         </p>
         <div ref={formRef}>
-        <form          className="grid grid-cols-1 gap-4 text-left"
-          onSubmit={(e) => {
-            e.preventDefault();
-            // Placeholder submit – in real app integrate with backend
-            alert('Form submitted (placeholder)');
-          }}
-        >
-          <label className="block">
-            <span className="text-gray-700">Name</span>
-            <input
-              type="text"
-              name="name"
-              required
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-slate-700 focus:ring-slate-700"
-            />
-          </label>
-          <label className="block">
-            <span className="text-gray-700">Email</span>
-            <input
-              type="email"
-              name="email"
-              required
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-slate-700 focus:ring-slate-700"
-            />
-          </label>
-          <label className="block">
-            <span className="text-gray-700">Message</span>
-            <textarea
-              name="message"
-              rows={4}
-              required
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-slate-700 focus:ring-slate-700"
-            />
-          </label>
-          <div className="flex justify-center mt-4">
-            <Button type="submit" variant="primary" size="lg" className="px-8 py-3">
-              Send Message
-            </Button>
-          </div>
-        </form>
+          <form
+            className="grid grid-cols-1 gap-4 text-left"
+            onSubmit={(e) => {
+              e.preventDefault();
+              // Placeholder submit – in real app integrate with backend
+              alert('Form submitted (placeholder)');
+            }}
+          >
+            <label className="block">
+              <span className="text-gray-700">Name</span>
+              <input
+                type="text"
+                name="name"
+                required
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-slate-700 focus:ring-slate-700"
+              />
+            </label>
+            <label className="block">
+              <span className="text-gray-700">Email</span>
+              <input
+                type="email"
+                name="email"
+                required
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-slate-700 focus:ring-slate-700"
+              />
+            </label>
+            <label className="block">
+              <span className="text-gray-700">Message</span>
+              <textarea
+                name="message"
+                rows={4}
+                required
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-slate-700 focus:ring-slate-700"
+              />
+            </label>
+            <div className="flex justify-center mt-4">
+              <Button type="submit" variant="primary" size="lg" className="px-8 py-3">
+                Send Message
+              </Button>
+            </div>
+          </form>
+        </div>
       </div>
     </Section>
   );
